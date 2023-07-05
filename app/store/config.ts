@@ -34,7 +34,8 @@ export const DEFAULT_CONFIG = {
 
   dontShowMaskSplashScreen: true,
 
-  models: DEFAULT_MODELS as any as LLMModel[],
+  // models: DEFAULT_MODELS as any as LLMModel[],
+  models: DEFAULT_MODELS,
 
   modelConfig: {
     model: "gpt-4-0613" as ModelType,
