@@ -16,6 +16,10 @@ function getModels(remoteModelRes: OpenAIListModelResponse) {
       (m) => !m.id.startsWith("gpt-4"),
     );
   }
+  // 过滤不需要的模型
+  remoteModelRes.data = remoteModelRes.data.filter(
+    (m) => m.id === "gpt-4-0613" || m.id === "gpt-3.5-turbo-16k-0613"
+  );
 
   return remoteModelRes;
 }
