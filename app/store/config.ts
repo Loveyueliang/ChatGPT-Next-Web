@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { LLMModel } from "../client/api";
 import { getClientConfig } from "../config/client";
 import { DEFAULT_INPUT_TEMPLATE, DEFAULT_MODELS, StoreKey } from "../constant";
+import tr from "@/app/locales/tr";
 
 export type ModelType = (typeof DEFAULT_MODELS)[number]["name"];
 
@@ -21,30 +22,30 @@ export enum Theme {
 }
 
 export const DEFAULT_CONFIG = {
-  submitKey: SubmitKey.CtrlEnter as SubmitKey,
+  submitKey: SubmitKey.Enter as SubmitKey,
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
   tightBorder: !!getClientConfig()?.isApp,
-  sendPreviewBubble: true,
+  sendPreviewBubble: false,
   sidebarWidth: 300,
 
   disablePromptHint: false,
 
-  dontShowMaskSplashScreen: false, // dont show splash screen when create chat
+  dontShowMaskSplashScreen: true, // dont show splash screen when create chat
 
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
     model: "gpt-3.5-turbo" as ModelType,
-    temperature: 0.5,
+    temperature: 0.8,
     top_p: 1,
     max_tokens: 2000,
     presence_penalty: 0,
     frequency_penalty: 0,
     sendMemory: true,
-    historyMessageCount: 4,
-    compressMessageLengthThreshold: 1000,
+    historyMessageCount: 25,
+    compressMessageLengthThreshold: 4000,
     template: DEFAULT_INPUT_TEMPLATE,
   },
 };
