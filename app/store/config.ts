@@ -32,12 +32,12 @@ export const DEFAULT_CONFIG = {
 
   disablePromptHint: false,
 
-  dontShowMaskSplashScreen: true, // dont show splash screen when create chat
+  dontShowMaskSplashScreen: true,
 
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gpt-3.5-turbo" as ModelType,
+    model: "gpt-4-0613" as ModelType,
     temperature: 0.8,
     top_p: 1,
     max_tokens: 2000,

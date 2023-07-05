@@ -3,9 +3,10 @@ services:
   chatgpt-next-web:
     container_name: chatgpt-next-web
     #image: yidadaa/chatgpt-next-web
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: registry.cn-hangzhou.aliyuncs.com/sijinhui/chatgpt-next-web
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
     ports:
       - 23000:3000
     environment:
