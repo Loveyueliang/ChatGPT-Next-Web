@@ -34,8 +34,7 @@ export const DEFAULT_CONFIG = {
 
   dontShowMaskSplashScreen: true,
 
-  // models: DEFAULT_MODELS as any as LLMModel[],
-  models: DEFAULT_MODELS,
+  models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
     model: "gpt-4-0613" as ModelType,
@@ -76,9 +75,10 @@ export function limitNumber(
 
 export function limitModel(name: string) {
   const allModels = useAppConfig.getState().models;
+  console.log("allModels: ",allModels);
   return allModels.some((m) => m.name === name && m.available)
     ? name
-    : "gpt-3.5-turbo";
+    : "gpt-4-0613";
 }
 
 export const ModalConfigValidator = {
