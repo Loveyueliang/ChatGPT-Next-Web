@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM registry.cn-hangzhou.aliyuncs.com/sijinhui/node:18-alpine AS base
 
 FROM base AS deps
 
