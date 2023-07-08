@@ -5,6 +5,8 @@ const DEFAULT_PROTOCOL = "https";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const DISABLE_GPT4 = !!process.env.DISABLE_GPT4;
+const AZURE_URL = process.env.AZURE_URL ?? BASE_URL;
+const AZURE_KEY = process.env.AZURE_KEY ?? "";
 
 export async function requestOpenai(req: NextRequest) {
   const controller = new AbortController();
@@ -13,15 +15,6 @@ export async function requestOpenai(req: NextRequest) {
     "/api/openai/",
     "",
   );
-
-  let baseUrl = BASE_URL;
-
-  if (!baseUrl.startsWith("http")) {
-    baseUrl = `${PROTOCOL}://${baseUrl}`;
-  }
-
-  console.log("[Proxy] ", openaiPath);
-  console.log("[Base Url]", baseUrl);
 
   let org_id: string = "";
 
@@ -39,13 +32,28 @@ export async function requestOpenai(req: NextRequest) {
     if (clonedBody) {
       const jsonBody = JSON.parse(clonedBody);
       if (!(jsonBody?.model ?? "").includes("gpt-4")) {
-        is_gpt_4_model = true;
         org_id = "";
+      } else {
+        is_gpt_4_model = true;
       }
     }
   } catch (e) {
     console.error("[OpenAI] 判断模型失败 ", e);
   }
+
+  let baseUrl = BASE_URL;
+
+  if (!baseUrl.startsWith("http")) {
+    baseUrl = `${PROTOCOL}://${baseUrl}`;
+  }
+  // 如果不是4，那么考虑使用微软的接口，节省成本。
+  if (!is_gpt_4_model) {
+    // 替换baseurl，
+    baseUrl = AZURE_URL;
+  }
+  // req.headers.set("Authorization", `Bearer ${apiKey}`);
+  console.log("[Proxy] ", openaiPath);
+  console.log("[Base Url]", baseUrl);
 
   const timeoutId = setTimeout(() => {
     controller.abort();
@@ -55,7 +63,7 @@ export async function requestOpenai(req: NextRequest) {
   const fetchOptions: RequestInit = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: authValue,
+      Authorization: is_gpt_4_model ? authValue : `Bearer ${AZURE_KEY}`,
       ...(org_id.length !== 0 && {
         "OpenAI-Organization": org_id,
       }),
