@@ -8,7 +8,7 @@ services:
 #      context: .
 #      dockerfile: Dockerfile
     ports:
-      - 23000:3000
+      - "127.0.0.1:23000:3000"
     environment:
       - OPENAI_API_KEY=$OPENAI_API_KEY
       - CODE=$CODE
