@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { typeOf } from "uri-js/dist/esnext/util";
 
 export const OPENAI_URL = "api.openai.com";
 const DEFAULT_PROTOCOL = "https";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const DISABLE_GPT4 = !!process.env.DISABLE_GPT4;
-const AZURE_URL = process.env.AZURE_URL ?? BASE_URL;
+const AZURE_URL =
+  process.env.AZURE_URL && process.env.AZURE_URL.length === 0
+    ? process.env.AZURE_URL
+    : BASE_URL;
 const AZURE_KEY = process.env.AZURE_KEY ?? "";
 
 export async function requestOpenai(req: NextRequest) {
@@ -17,7 +21,6 @@ export async function requestOpenai(req: NextRequest) {
   );
 
   let org_id: string = "";
-
   if (process.env.OPENAI_ORG_ID) {
     org_id = process.env.OPENAI_ORG_ID;
     console.log("[Org ID]", process.env.OPENAI_ORG_ID);
@@ -40,7 +43,6 @@ export async function requestOpenai(req: NextRequest) {
   } catch (e) {
     console.error("[OpenAI] 判断模型失败 ", e);
   }
-
   let baseUrl = BASE_URL;
 
   if (!baseUrl.startsWith("http")) {
