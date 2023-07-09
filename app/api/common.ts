@@ -7,7 +7,7 @@ const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const DISABLE_GPT4 = !!process.env.DISABLE_GPT4;
 const AZURE_URL =
-  process.env.AZURE_URL && process.env.AZURE_URL.length === 0
+  process.env.AZURE_URL && process.env.AZURE_URL.length !== 0
     ? process.env.AZURE_URL
     : BASE_URL;
 const AZURE_KEY = process.env.AZURE_KEY ?? "";
