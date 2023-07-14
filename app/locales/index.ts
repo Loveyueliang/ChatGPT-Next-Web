@@ -13,6 +13,7 @@ import no from "./no";
 import cs from "./cs";
 import ko from "./ko";
 import ar from "./ar";
+import bn from "./bn";
 import { merge } from "../utils/merge";
 
 import type { LocaleType } from "./cn";
@@ -21,6 +22,20 @@ export type { LocaleType, PartialLocaleType } from "./cn";
 const ALL_LANGS = {
   cn,
   en,
+  tw,
+  jp,
+  ko,
+  fr,
+  es,
+  it,
+  tr,
+  de,
+  vi,
+  ru,
+  cs,
+  no,
+  ar,
+  bn,
   // tw,
   // jp,
   // ko,
@@ -56,6 +71,20 @@ export const ALL_LANG_OPTIONS: { en: string; cn: string } = {
   // cs: "Čeština",
   // no: "Nynorsk",
   // ar: "العربية",
+  tw: "繁體中文",
+  jp: "日本語",
+  ko: "한국어",
+  fr: "Français",
+  es: "Español",
+  it: "Italiano",
+  tr: "Türkçe",
+  de: "Deutsch",
+  vi: "Tiếng Việt",
+  ru: "Русский",
+  cs: "Čeština",
+  no: "Nynorsk",
+  ar: "العربية",
+  bn: "বাংলা",
 };
 
 const LANG_KEY = "lang";

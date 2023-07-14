@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { typeOf } from "uri-js/dist/esnext/util";
 
 export const OPENAI_URL = "api.openai.com";
 const DEFAULT_PROTOCOL = "https";
@@ -77,12 +76,12 @@ export async function requestOpenai(req: NextRequest) {
   const fetchOptions: RequestInit = {
     headers: {
       "Content-Type": "application/json",
+      "Cache-Control": "no-store",
       Authorization: auth_key,
       ...(org_id.length !== 0 && {
         "OpenAI-Organization": org_id,
       }),
     },
-    cache: "no-store",
     method: req.method,
     body: clonedBody ? clonedBody : null,
     // @ts-ignore
@@ -109,8 +108,7 @@ export async function requestOpenai(req: NextRequest) {
     // to prevent browser prompt for credentials
     const newHeaders = new Headers(res.headers);
     newHeaders.delete("www-authenticate");
-
-    // to disbale ngnix buffering
+    // to disable nginx buffering
     newHeaders.set("X-Accel-Buffering", "no");
 
     return new Response(res.body, {
