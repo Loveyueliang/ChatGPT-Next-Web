@@ -11,6 +11,8 @@ const AZURE_URL =
     ? process.env.AZURE_URL
     : BASE_URL;
 const AZURE_KEY = process.env.AZURE_KEY ?? "";
+const GPT_4_BASE_URL: string = process.env.GPT_4_BASE_URL ?? OPENAI_URL;
+const GPT_4_KEY: string = process.env.GPT_4_KEY ?? "";
 
 export async function requestOpenai(req: NextRequest) {
   const controller = new AbortController();
@@ -50,13 +52,22 @@ export async function requestOpenai(req: NextRequest) {
     baseUrl = `${PROTOCOL}://${baseUrl}`;
   }
   // 如果不是4，那么考虑使用微软的接口，节省成本。
-  if (!is_gpt_4_model) {
+  if (!is_gpt_4_model && process.env.AZURE_URL) {
     // 替换baseurl，
     baseUrl = AZURE_URL;
   }
+
+  let auth_key = AZURE_KEY.length === 0 ? authValue : `Bearer ${AZURE_KEY}`;
+
+  if (is_gpt_4_model && GPT_4_BASE_URL && GPT_4_KEY) {
+    baseUrl = GPT_4_BASE_URL;
+    auth_key = GPT_4_KEY;
+  }
+
   // req.headers.set("Authorization", `Bearer ${apiKey}`);
   // console.log("[Proxy] ", openaiPath);
   // console.log("[Base Url]", baseUrl);
+  // console.log(auth_key)
 
   const timeoutId = setTimeout(() => {
     controller.abort();
@@ -66,7 +77,7 @@ export async function requestOpenai(req: NextRequest) {
   const fetchOptions: RequestInit = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: AZURE_KEY.length === 0 ? authValue : `Bearer ${AZURE_KEY}`,
+      Authorization: auth_key,
       ...(org_id.length !== 0 && {
         "OpenAI-Organization": org_id,
       }),

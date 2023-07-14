@@ -18,6 +18,8 @@ services:
       - OPENAI_ORG_ID=$OPENAI_ORG_ID
       - HIDE_USER_API_KEY=$HIDE_USER_API_KEY
       - DISABLE_GPT4=$DISABLE_GPT4
+      - GPT_4_BASE_URL=$GPT_4_BASE_URL
+      - GPT_4_KEY=$GPT_4_KEY
     networks:
       - chatgpt-ns
 
