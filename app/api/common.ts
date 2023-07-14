@@ -23,13 +23,14 @@ export async function requestOpenai(req: NextRequest) {
   let org_id: string = "";
   if (process.env.OPENAI_ORG_ID) {
     org_id = process.env.OPENAI_ORG_ID;
-    console.log("[Org ID]", process.env.OPENAI_ORG_ID);
+    // console.log("[Org ID]", process.env.OPENAI_ORG_ID);
   }
 
   // 这里判断如果是gpt4的请求才使用组织ID，否则使用默认组织ID
 
   // 生成一个变量来判断当前使用的模型是：
   const clonedBody = await req.text();
+  console.log("【本次消息】", clonedBody);
   let is_gpt_4_model: boolean = false;
   try {
     if (clonedBody) {
@@ -54,8 +55,8 @@ export async function requestOpenai(req: NextRequest) {
     baseUrl = AZURE_URL;
   }
   // req.headers.set("Authorization", `Bearer ${apiKey}`);
-  console.log("[Proxy] ", openaiPath);
-  console.log("[Base Url]", baseUrl);
+  // console.log("[Proxy] ", openaiPath);
+  // console.log("[Base Url]", baseUrl);
 
   const timeoutId = setTimeout(() => {
     controller.abort();
