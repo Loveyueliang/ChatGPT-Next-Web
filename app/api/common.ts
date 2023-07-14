@@ -65,7 +65,7 @@ export async function requestOpenai(req: NextRequest) {
 
   // req.headers.set("Authorization", `Bearer ${apiKey}`);
   // console.log("[Proxy] ", openaiPath);
-  // console.log("[Base Url]", baseUrl);
+  console.log("[Base Url]", baseUrl);
   // console.log(auth_key)
 
   const timeoutId = setTimeout(() => {
