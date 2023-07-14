@@ -10,6 +10,7 @@ services:
     ports:
       - "127.0.0.1:23000:3000"
     environment:
+      - TZ=Asia/Shanghai
       - OPENAI_API_KEY=$OPENAI_API_KEY
       - CODE=$CODE
       - BASE_URL=$BASE_URL
@@ -20,6 +21,8 @@ services:
       - DISABLE_GPT4=$DISABLE_GPT4
       - GPT_4_BASE_URL=$GPT_4_BASE_URL
       - GPT_4_KEY=$GPT_4_KEY
+    volumes:
+      - /etc/localtime:/etc/localtime
     networks:
       - chatgpt-ns
 
