@@ -164,7 +164,8 @@ export const useAppConfig = create<ChatConfigStore>()(
         }
 
         if (version < 3.5) {
-          state.customModels = "claude,claude-100k";
+          // state.customModels = "claude,claude-100k";
+          state.customModels = "";
         }
 
         if (version < 3.6) {
